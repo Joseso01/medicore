@@ -1,4 +1,4 @@
-# MediCore Systems 🏥
+# MediCore Systems 
 
 [![PHP Version](https://img.shields.io/badge/PHP-8.2%2B-777BB4?style=flat&logo=php&logoColor=white)](https://www.php.net/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=flat&logo=mysql&logoColor=white)](https://www.mysql.com/)
@@ -12,7 +12,7 @@ Cumple con las directrices de la especificación técnica **`ERS-MCS-DB-2026-V1.
 
 ---
 
-## 📌 Características Principales
+## Características Principales
 
 ### 1. Seguridad y Control de Acceso Basado en Roles (RBAC)
 - **Roles segregados:** Administrador TI, Personal Médico y Recepción/Admisión.
@@ -42,7 +42,7 @@ Cumple con las directrices de la especificación técnica **`ERS-MCS-DB-2026-V1.
 
 ---
 
-## 🛠️ Stack Tecnológico
+## Stack Tecnológico
 
 | Capa | Tecnología | Descripción |
 | :--- | :--- | :--- |
@@ -53,7 +53,8 @@ Cumple con las directrices de la especificación técnica **`ERS-MCS-DB-2026-V1.
 
 ---
 
-## 🚀 Instalación y Puesta en Marcha con Docker
+
+## Instalación y Puesta en Marcha con Docker
 
 ### Prerrequisitos
 - [Docker Desktop](https://www.docker.com/products/docker-desktop/) instalado y en ejecución.
@@ -74,11 +75,11 @@ docker-compose up -d --build
 
 ### 3. Acceder al sistema
 Abre tu navegador e ingresa a:
-👉 **[http://localhost:8080](http://localhost:8080)**
+**[http://localhost:8080](http://localhost:8080)**
 
 ---
 
-## 🔑 Credenciales de Prueba (Seeders)
+## Credenciales de Prueba (Seeders)
 
 El sistema incluye usuarios preconfigurados para evaluar los diferentes roles y permisos:
 
@@ -91,7 +92,7 @@ El sistema incluye usuarios preconfigurados para evaluar los diferentes roles y 
 
 ---
 
-## 📂 Estructura del Proyecto
+## Estructura del Proyecto
 
 ```text
 medicore-systems/
@@ -120,7 +121,7 @@ medicore-systems/
 
 ---
 
-## 🛡️ Principios de Seguridad y Cumplimiento
+## Principios de Seguridad y Cumplimiento
 - **Inmutabilidad:** Las tablas críticas de kárdex y bitácora prohíben operaciones `UPDATE` y `DELETE`.
 - **Integridad Referencial:** Restricción estricta de borrado (`ON DELETE RESTRICT`) para evitar pérdida accidental de registros médicos.
 - **Trazabilidad:** Disparadores automáticos registran cualquier cambio de datos (`OLD` vs `NEW`) en formato JSON dentro de `bitacora_auditoria`.
