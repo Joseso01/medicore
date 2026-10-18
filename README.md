@@ -62,7 +62,7 @@ Cumple con las directrices de la especificación técnica **`ERS-MCS-DB-2026-V1.
 
 ### 1. Clonar el repositorio
 ```bash
-git clone https://github.com/TU_USUARIO/medicore.git
+git clone https://github.com/Joseso01/medicore.git
 cd medicore-systems
 ```
 
