@@ -1,0 +1,41 @@
+services:
+  app_web:
+    build: ./docker/php
+    container_name: medicore_app
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    volumes:
+      - ./src:/var/www/html
+    networks:
+      - medicore_net
+    depends_on:
+      - db_mysql
+
+  db_mysql:
+    image: mysql:8.0
+    container_name: medicore_db
+    restart: unless-stopped
+    command: >
+      --default-authentication-plugin=mysql_native_password
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --sql-mode=STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION
+      --log-bin-trust-function-creators=1
+    environment:
+      MYSQL_ROOT_PASSWORD: root_medicore_2026
+      MYSQL_DATABASE: medicore_db
+      MYSQL_USER: medicore_user
+      MYSQL_PASSWORD: medicore_pass_user
+    volumes:
+      - medicore_db_data:/var/lib/mysql
+      - ./sql:/docker-entrypoint-initdb.d
+    networks:
+      - medicore_net
+
+networks:
+  medicore_net:
+    driver: bridge
+
+volumes:
+  medicore_db_data:

@@ -1,0 +1,40 @@
+# ============================================================================
+# MediCore Systems — .dockerignore (Optimización y Seguridad de Imagen Docker)
+# ============================================================================
+
+# 1. Control de versiones e historial Git (evita exponer .git en Apache)
+.git
+.gitignore
+.gitattributes
+
+# 2. Documentación y archivos pesados (no necesarios dentro del contenedor PHP)
+Documentacion/
+docs/
+AGENTS.md
+README.md
+*.pdf
+*.md
+
+# 3. Scripts SQL y orquestación Docker (MySQL los monta por separado)
+sql/
+docker/
+docker-compose.yml
+docker-compose.*.yml
+Dockerfile*
+
+# 4. Secretos locales, variables de entorno y respaldos
+.env
+.env.*
+backups/
+*.sql.gz
+*.bak
+*.dump
+*.log
+logs/
+
+# 5. Archivos de entorno de desarrollo e IDE
+.vscode/
+.idea/
+Thumbs.db
+Desktop.ini
+.DS_Store

@@ -1,0 +1,45 @@
+# ============================================================================
+# MediCore Systems — .gitignore (Producción y Control de Versiones)
+# ============================================================================
+
+# 1. Variables de entorno y secretos de producción (NUNCA subir a Git)
+.env
+.env.*
+!.env.example
+
+# 2. Volúmenes de datos locales o respaldos de MySQL (Contienen datos clínicos PHI/EHR)
+mysql_data/
+db_data/
+backups/
+*.sql.gz
+*.bak
+*.dump
+# IMPORTANTE: NO ignorar *.sql globalmente porque /sql/01_init.sql,
+# /sql/02_triggers.sql y /sql/03_seeders.sql son requeridos por RNF-ENT-01.
+
+# 3. Logs de aplicación, Apache, PHP y MySQL
+*.log
+logs/
+php_errors.log
+
+# 4. Archivos temporales de PHP, sesiones y caché
+tmp/
+temp/
+sessions/
+sess_*
+.phpunit.result.cache
+vendor/
+
+# 5. Configuraciones locales del IDE / Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# 6. Archivos del Sistema Operativo (Windows / macOS / Linux)
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+.DS_Store
+$RECYCLE.BIN/

@@ -1,0 +1,35 @@
+# ============================================================================
+# MediCore Systems — Normalización de Saltos de Línea (CRLF vs LF)
+# ============================================================================
+
+# 1. Tratamiento automático por defecto: normalizar a LF en el repositorio
+* text=auto
+
+# 2. Archivos de código fuente y contenedores (forzar siempre fin de línea LF para Linux/Docker)
+*.php text eol=lf
+*.sql text eol=lf
+*.sh text eol=lf
+*.json text eol=lf
+*.yml text eol=lf
+*.yaml text eol=lf
+*.env.example text eol=lf
+.gitignore text eol=lf
+.dockerignore text eol=lf
+Dockerfile text eol=lf
+
+# 3. Archivos web estáticos y documentación
+*.js text eol=lf
+*.css text eol=lf
+*.html text eol=lf
+*.md text eol=lf
+
+# 4. Archivos binarios (evitar que Git intente modificar sus bytes)
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary

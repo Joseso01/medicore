@@ -1,0 +1,520 @@
+/* ============================================================================
+ * MediCore Systems — Hoja de estilos corporativa centralizada
+ * Especificación: ERS-MCS-DB-2026-V1.0
+ * Stack: Bootstrap 5.3 + CSS nativo (Custom Properties, Grid/Flexbox)
+ *
+ * Índice:
+ *   1. Tokens de diseño y tema sobre Bootstrap
+ *   2. Base y accesibilidad
+ *   3. Barra de navegación
+ *   4. Tarjetas, KPI y estados vacíos
+ *   5. Tablas
+ *   6. Pestañas, formularios, alertas y modales
+ *   7. Insignias de dominio (Semáforo FEFO, Kárdex)
+ *   8. Utilidades (reemplazo de estilos inline)
+ *   9. Pantalla de acceso (login)
+ *  10. Pie de página
+ *  11. Movimiento reducido
+ *  12. Impresión (EHR / Receta / Kárdex)
+ * ========================================================================== */
+
+/* 1. Tokens de diseño y tema sobre Bootstrap ------------------------------ */
+:root {
+    --mc-primary: #0b4f6c;
+    --mc-primary-rgb: 11, 79, 108;
+    --mc-primary-dark: #083b52;
+    --mc-primary-darker: #062b3d;
+    --mc-primary-light: #146b91;
+    --mc-accent: #01baef;
+
+    --mc-bg: #f4f7f9;
+    --mc-surface: #ffffff;
+    --mc-border: #e3e9ee;
+    --mc-text: #1f2d3a;
+    --mc-text-muted: #5b6b78;
+
+    --mc-info: #0dcaf0;
+    --mc-success: #198754;
+    --mc-warning: #ffc107;
+    --mc-danger: #dc3545;
+
+    --mc-radius: 0.625rem;
+    --mc-radius-sm: 0.375rem;
+    --mc-shadow-sm: 0 1px 2px rgba(16, 42, 67, 0.06), 0 1px 3px rgba(16, 42, 67, 0.08);
+    --mc-shadow-md: 0 4px 12px rgba(16, 42, 67, 0.10);
+    --mc-shadow-lg: 0 15px 35px rgba(0, 0, 0, 0.35);
+    --mc-transition: 150ms ease-in-out;
+
+    --mc-font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --mc-font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+    /* Tema: el "primary" de Bootstrap adopta el azul petróleo institucional */
+    --bs-primary: var(--mc-primary);
+    --bs-primary-rgb: var(--mc-primary-rgb);
+    --bs-primary-text-emphasis: var(--mc-primary-dark);
+    --bs-primary-bg-subtle: #d9e8ef;
+    --bs-primary-border-subtle: #a9c9d8;
+    --bs-link-color: var(--mc-primary);
+    --bs-link-color-rgb: var(--mc-primary-rgb);
+    --bs-link-hover-color: var(--mc-primary-dark);
+    --bs-link-hover-color-rgb: 8, 59, 82;
+    --bs-body-color: var(--mc-text);
+    --bs-body-font-family: var(--mc-font-sans);
+    --bs-border-color: var(--mc-border);
+    --bs-focus-ring-color: rgba(var(--mc-primary-rgb), 0.35);
+}
+
+.btn-primary {
+    --bs-btn-bg: var(--mc-primary);
+    --bs-btn-border-color: var(--mc-primary);
+    --bs-btn-hover-bg: var(--mc-primary-dark);
+    --bs-btn-hover-border-color: var(--mc-primary-dark);
+    --bs-btn-active-bg: var(--mc-primary-darker);
+    --bs-btn-active-border-color: var(--mc-primary-darker);
+    --bs-btn-disabled-bg: var(--mc-primary);
+    --bs-btn-disabled-border-color: var(--mc-primary);
+    --bs-btn-focus-shadow-rgb: var(--mc-primary-rgb);
+}
+
+.btn-outline-primary {
+    --bs-btn-color: var(--mc-primary);
+    --bs-btn-border-color: var(--mc-primary);
+    --bs-btn-hover-bg: var(--mc-primary);
+    --bs-btn-hover-border-color: var(--mc-primary);
+    --bs-btn-active-bg: var(--mc-primary-dark);
+    --bs-btn-active-border-color: var(--mc-primary-dark);
+    --bs-btn-disabled-color: var(--mc-primary);
+    --bs-btn-disabled-border-color: var(--mc-primary);
+    --bs-btn-focus-shadow-rgb: var(--mc-primary-rgb);
+}
+
+/* 2. Base y accesibilidad -------------------------------------------------- */
+body {
+    background-color: var(--mc-bg);
+    font-family: var(--mc-font-sans);
+    color: var(--mc-text);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--mc-text);
+    letter-spacing: -0.01em;
+}
+
+/* Enlace "Saltar al contenido" (WCAG 2.4.1) */
+.mc-skip-link {
+    position: absolute;
+    top: -100px;
+    left: 1rem;
+    z-index: 2000;
+    padding: 0.5rem 1rem;
+    background: var(--mc-surface);
+    color: var(--mc-primary);
+    font-weight: 600;
+    border-radius: var(--mc-radius-sm);
+    box-shadow: var(--mc-shadow-md);
+    text-decoration: none;
+}
+
+.mc-skip-link:focus {
+    top: 0.75rem;
+}
+
+/* Anillo de foco visible y consistente para navegación por teclado */
+:focus-visible {
+    outline: 3px solid rgba(var(--mc-primary-rgb), 0.45);
+    outline-offset: 2px;
+}
+
+.btn:focus-visible,
+.form-control:focus-visible,
+.form-select:focus-visible,
+.nav-link:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 0.25rem rgba(var(--mc-primary-rgb), 0.35);
+}
+
+.mc-main {
+    flex: 1 0 auto;
+}
+
+code {
+    color: var(--mc-primary-dark);
+}
+
+/* 3. Barra de navegación --------------------------------------------------- */
+.navbar-medicore {
+    background: linear-gradient(90deg, var(--mc-primary-dark) 0%, var(--mc-primary) 100%);
+    border-bottom: 3px solid var(--mc-accent);
+}
+
+.navbar-medicore .navbar-brand {
+    letter-spacing: 0.01em;
+}
+
+.navbar-medicore .nav-link {
+    color: rgba(255, 255, 255, 0.82);
+    border-radius: var(--mc-radius-sm);
+    transition: background-color var(--mc-transition), color var(--mc-transition);
+    white-space: nowrap;
+}
+
+.navbar-medicore .nav-link:hover,
+.navbar-medicore .nav-link:focus-visible {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.10);
+}
+
+.navbar-medicore .nav-link.active {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.18);
+    font-weight: 600;
+    box-shadow: inset 0 -2px 0 var(--mc-accent);
+}
+
+.mc-brand-badge {
+    font-size: 0.7rem;
+}
+
+.mc-user-badge {
+    font-size: 0.7rem;
+}
+
+.mc-user-badge--ttl {
+    font-size: 0.68rem;
+}
+
+/* 4. Tarjetas, KPI y estados vacíos --------------------------------------- */
+.card {
+    border-radius: var(--mc-radius);
+    border-color: var(--mc-border);
+}
+
+.card > .card-header:first-child {
+    border-top-left-radius: var(--mc-radius);
+    border-top-right-radius: var(--mc-radius);
+}
+
+.card-header.bg-white {
+    border-bottom: 1px solid var(--mc-border);
+}
+
+.card-header h6 {
+    color: var(--mc-text);
+}
+
+.card-kpi {
+    --mc-kpi-color: var(--mc-primary);
+    border: none;
+    border-left: 4px solid var(--mc-kpi-color);
+    box-shadow: var(--mc-shadow-sm);
+    transition: transform var(--mc-transition), box-shadow var(--mc-transition);
+}
+
+.card-kpi:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--mc-shadow-md);
+}
+
+.card-kpi--info    { --mc-kpi-color: var(--mc-info); }
+.card-kpi--success { --mc-kpi-color: var(--mc-success); }
+.card-kpi--warning { --mc-kpi-color: var(--mc-warning); }
+.card-kpi--danger  { --mc-kpi-color: var(--mc-danger); }
+
+.mc-empty-state {
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    color: var(--mc-text-muted);
+}
+
+.mc-empty-state .bi {
+    display: block;
+    font-size: 2.25rem;
+    margin-bottom: 0.5rem;
+    opacity: 0.45;
+}
+
+/* 5. Tablas ---------------------------------------------------------------- */
+.table {
+    --bs-table-hover-bg: rgba(var(--mc-primary-rgb), 0.04);
+}
+
+.table > thead.table-light > tr > th {
+    --bs-table-bg: #f1f5f8;
+    color: var(--mc-text-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--mc-border);
+}
+
+/* Contenedor con desplazamiento vertical y encabezado fijo */
+.mc-table-scroll {
+    max-height: 65vh;
+    overflow-y: auto;
+}
+
+.mc-table-scroll > .table > thead > tr > th {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+/* Anchos de columna del editor de receta (consultas.php) */
+.mc-table-receta > thead > tr > th:nth-child(1) { width: 28%; }
+.mc-table-receta > thead > tr > th:nth-child(2) { width: 16%; }
+.mc-table-receta > thead > tr > th:nth-child(3) { width: 14%; }
+.mc-table-receta > thead > tr > th:nth-child(4) { width: 16%; }
+.mc-table-receta > thead > tr > th:nth-child(5) { width: 12%; }
+.mc-table-receta > thead > tr > th:nth-child(6) { width: 9%; }
+.mc-table-receta > thead > tr > th:nth-child(7) { width: 5%; }
+
+/* 6. Pestañas, formularios, alertas y modales ----------------------------- */
+.nav-tabs {
+    border-bottom-color: var(--mc-border);
+}
+
+.nav-tabs .nav-link {
+    color: var(--mc-text-muted);
+    border-top-left-radius: var(--mc-radius-sm);
+    border-top-right-radius: var(--mc-radius-sm);
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--mc-primary);
+    border-color: transparent;
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--mc-primary);
+    border-color: var(--mc-border) var(--mc-border) var(--mc-surface);
+    box-shadow: inset 0 3px 0 var(--mc-primary);
+}
+
+/* En pantallas medianas/pequeñas las pestañas se desplazan horizontalmente */
+@media (max-width: 991.98px) {
+    .nav-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: thin;
+    }
+
+    .nav-tabs .nav-link {
+        white-space: nowrap;
+    }
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: rgba(var(--mc-primary-rgb), 0.55);
+    box-shadow: 0 0 0 0.25rem rgba(var(--mc-primary-rgb), 0.18);
+}
+
+.form-label.small {
+    color: var(--mc-text);
+}
+
+.alert {
+    border-left-width: 4px;
+    border-radius: var(--mc-radius-sm);
+}
+
+.modal-content {
+    border: none;
+    border-radius: var(--mc-radius);
+    box-shadow: var(--mc-shadow-lg);
+}
+
+.modal-header.bg-light {
+    border-bottom: 1px solid var(--mc-border);
+}
+
+/* 7. Insignias de dominio -------------------------------------------------- */
+/* Semáforo de caducidad FEFO (RF-FAR-04) */
+.mc-semaforo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.6rem;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    line-height: 1.2;
+    border: 1px solid transparent;
+    white-space: nowrap;
+}
+
+.mc-semaforo::before {
+    content: "";
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 50%;
+    background-color: currentColor;
+    flex-shrink: 0;
+}
+
+.mc-semaforo--rojo {
+    color: #a52834;
+    background-color: #f8d7da;
+    border-color: #f1aeb5;
+}
+
+.mc-semaforo--ambar {
+    color: #8a6100;
+    background-color: #fff3cd;
+    border-color: #ffe69c;
+}
+
+.mc-semaforo--verde {
+    color: #146c43;
+    background-color: #d1e7dd;
+    border-color: #a3cfbb;
+}
+
+/* Cantidades del Kárdex: entradas en verde y salidas en rojo */
+.mc-kardex-entrada { color: var(--mc-success); }
+.mc-kardex-salida  { color: var(--mc-danger); }
+
+/* 8. Utilidades (reemplazo de estilos inline) ----------------------------- */
+.font-mono {
+    font-family: var(--mc-font-mono);
+    font-size: 0.85rem;
+}
+
+.mc-fs-xs {
+    font-size: 0.75rem;
+}
+
+.mc-scroll-panel {
+    max-height: 75vh;
+    overflow-y: auto;
+}
+
+.mc-cell-json {
+    max-width: 340px;
+}
+
+.mc-max-w-540 {
+    max-width: 540px;
+}
+
+/* 9. Pantalla de acceso (login) ------------------------------------------- */
+.mc-login-body {
+    background:
+        radial-gradient(circle at 15% 20%, rgba(1, 186, 239, 0.18) 0%, transparent 45%),
+        linear-gradient(135deg, var(--mc-primary-darker) 0%, var(--mc-primary) 60%, var(--mc-primary-light) 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mc-login-card {
+    max-width: 460px;
+    width: 100%;
+    border: none;
+    border-radius: 0.75rem;
+    border-top: 4px solid var(--mc-accent);
+    box-shadow: var(--mc-shadow-lg);
+}
+
+.mc-login-icon {
+    width: 60px;
+    height: 60px;
+}
+
+/* 10. Pie de página -------------------------------------------------------- */
+.mc-footer {
+    border-top: 1px solid var(--mc-border);
+    background-color: var(--mc-surface);
+}
+
+/* 11. Movimiento reducido -------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .card-kpi:hover {
+        transform: none;
+    }
+}
+
+/* 12. Impresión (EHR / Receta / Kárdex) ----------------------------------- */
+@media print {
+    @page {
+        margin: 1.5cm;
+    }
+
+    body {
+        background: #fff !important;
+        color: #000;
+        font-size: 11pt;
+    }
+
+    header,
+    footer,
+    .mc-skip-link,
+    .navbar,
+    .nav-tabs,
+    .btn,
+    .btn-group,
+    .btn-close,
+    .modal,
+    .modal-backdrop,
+    .alert-dismissible,
+    form [type="search"] {
+        display: none !important;
+    }
+
+    .mc-main {
+        padding: 0 !important;
+    }
+
+    .card,
+    .card-kpi {
+        box-shadow: none !important;
+        border: 1px solid #bbb !important;
+        transform: none !important;
+        break-inside: avoid;
+    }
+
+    .table-responsive,
+    .mc-table-scroll,
+    .mc-scroll-panel {
+        max-height: none !important;
+        overflow: visible !important;
+    }
+
+    .table {
+        border-collapse: collapse !important;
+    }
+
+    .table td,
+    .table th {
+        border: 1px solid #999 !important;
+        background: transparent !important;
+    }
+
+    .badge,
+    .mc-semaforo {
+        border: 1px solid #000 !important;
+        color: #000 !important;
+        background: transparent !important;
+    }
+
+    a[href]::after {
+        content: none !important;
+    }
+}
